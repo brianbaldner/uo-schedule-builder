@@ -37,8 +37,9 @@ COPY classes.db* ./
 # Copy built frontend from stage 1
 COPY --from=frontend-builder /app/schedule-builder/dist ./schedule-builder/dist
 
-# Expose port
-EXPOSE 8000
+# Expose port (Cloud Run uses PORT env variable, defaults to 8080)
+EXPOSE 8080
 
 # Run the FastAPI application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use PORT env variable for Cloud Run compatibility, fallback to 8080
+CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}
