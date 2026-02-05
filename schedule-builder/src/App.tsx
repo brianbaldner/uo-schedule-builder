@@ -310,7 +310,7 @@ function App() {
               <div className="autocomplete-container">
                 <input
                   type="text"
-                  placeholder="Subject (e.g., CSCI)"
+                  placeholder="Subject (e.g., BA)"
                   value={newSubj}
                   onChange={(e) => {
                     setNewSubj(e.target.value.toUpperCase())
@@ -321,7 +321,7 @@ function App() {
                 />
                 <input
                   type="text"
-                  placeholder="Code (e.g., 1301)"
+                  placeholder="Code (e.g., 101)"
                   value={newCode}
                   onChange={(e) => {
                     setNewCode(e.target.value)
@@ -344,7 +344,7 @@ function App() {
                   </div>
                 )}
               </div>
-              <button onClick={addClassToList}>Add</button>
+              <button style={{width: '100%'}} onClick={addClassToList}>Add</button>
             </div>
             {validationError && <div className="validation-error">{validationError}</div>}
           </div>
@@ -358,7 +358,7 @@ function App() {
                 {selectedClasses.map((cls, index) => (
                   <li key={index}>
                     <span>{cls.Subj} {cls.Code}</span>
-                    <button onClick={() => removeClassFromList(index)}>×</button>
+                    <button style={{'margin': 0}} onClick={() => removeClassFromList(index)}>×</button>
                   </li>
                 ))}
               </ul>
