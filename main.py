@@ -35,7 +35,7 @@ def read_root(Subj: str | None = None, Crse: str | None = None, Title: str | Non
     cursor = conn.cursor()
     
     # Build the query dynamically based on provided filters
-    query = "SELECT * FROM Spring2026Classes WHERE 1=1"
+    query = "SELECT * FROM Classes WHERE 1=1"
 
     if len([x for x in args.values() if x is not None]) == 0:
         return HTTPException(status_code=400, detail="At least one search parameter is required")
@@ -85,7 +85,7 @@ def get_all_combos(classes):
 @app.post("/api/generate_schedules")
 def read_item(classes: list[Classes]):
     conn = sqlite3.connect('classes.db')
-    query = "SELECT * FROM Spring2026Classes WHERE " + " OR ".join([f'(Subj = "{c.Subj}" AND Crse = "{c.Code}")' for c in classes])
+    query = "SELECT * FROM Classes WHERE " + " OR ".join([f'(Subj = "{c.Subj}" AND Crse = "{c.Code}")' for c in classes])
 
     df = pd.read_sql_query(query, conn, index_col='CRN')
     df['CRN'] = df.index.values
@@ -187,7 +187,7 @@ def schedule_has_conflicts(schedule):
 def all_classes():
     query = """
     SELECT DISTINCT Subj, Crse
-    FROM Spring2026Classes
+    FROM Classes
     """
     with sqlite3.connect('classes.db') as conn:
         df = pd.read_sql_query(query, conn)
@@ -196,6 +196,9 @@ def all_classes():
 # Mount static files for React app (after all API routes)
 app.mount("/assets", StaticFiles(directory="schedule-builder/dist/assets"), name="assets")
 
+@app.get('/favicon.ico')
+async def serve_ico():
+    return FileResponse('schedule-builder/dist/favicon.ico')
 # Catch-all route to serve React app for client-side routing
 @app.get("/{full_path:path}")
 async def serve_react_app(full_path: str):

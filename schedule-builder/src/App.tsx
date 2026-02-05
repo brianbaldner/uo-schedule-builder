@@ -298,7 +298,8 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>UOregon Unofficial Schedule Builder</h1>
+        <h1>University of Oregon Unofficial Schedule Builder</h1>
+        <h3 style={{'color': 'grey'}}>Spring 2026</h3>
       </header>
 
       <div className="container">
@@ -364,13 +365,15 @@ function App() {
             )}
           </div>
 
-          <button 
-            className="generate-btn" 
-            onClick={generateSchedules}
-            disabled={loading || selectedClasses.length === 0}
-          >
-            {loading ? 'Generating...' : 'Generate Schedules'}
-          </button>
+          <div>
+            <button 
+              className="generate-btn" 
+              onClick={generateSchedules}
+              disabled={loading || selectedClasses.length === 0}
+            >
+              {loading ? 'Generating...' : 'Generate Schedules'}
+            </button>
+          </div>
 
           {error && <div className="error">{error}</div>}
           

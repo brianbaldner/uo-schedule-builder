@@ -14,7 +14,7 @@ body {
 
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #007030 0%, #FEE11A 100%);
+  background: #f5f5f5;
 }
 
 header {
@@ -31,6 +31,7 @@ header h1 {
 
 .container {
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   padding: 2rem;
   max-width: 1400px;
@@ -38,12 +39,16 @@ header h1 {
 }
 
 .sidebar {
-  flex: 0 0 300px;
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  height: fit-content;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 2rem;
+  align-items: start;
+  max-width: 850px;
+  margin: auto;
 }
 
 .class-input h2 {
@@ -135,7 +140,7 @@ header h1 {
 }
 
 .class-list {
-  margin-top: 2rem;
+  /* margin removed for horizontal layout */
 }
 
 .class-list h3 {
@@ -189,9 +194,7 @@ header h1 {
 }
 
 .generate-btn {
-  width: 100%;
-  margin-top: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 2rem;
   background: #007030;
   color: white;
   border: none;
@@ -200,6 +203,9 @@ header h1 {
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s;
+  height: fit-content;
+  white-space: nowrap;
+  align-self: flex-start;
 }
 
 .generate-btn:hover:not(:disabled) {
@@ -212,7 +218,7 @@ header h1 {
 }
 
 .error {
-  margin-top: 1rem;
+  grid-column: 1 / -1;
   padding: 0.75rem;
   background: #ffe0e0;
   color: #d63031;
@@ -221,7 +227,7 @@ header h1 {
 }
 
 .conflicts-warning {
-  margin-top: 1rem;
+  grid-column: 1 / -1;
   padding: 1rem;
   background: #fff3cd;
   border: 2px solid #ffc107;
