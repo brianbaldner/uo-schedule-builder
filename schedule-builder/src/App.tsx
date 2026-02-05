@@ -447,7 +447,7 @@ function App() {
                     <div className="course-details">
                       <div className="detail-row">
                         <span className="label">Time:</span>
-                        <span>{formatTime(section.Time)}</span>
+                        <span>{section.Location == 'ASYNC WEB' ? 'N/A' : formatTime(section.Time)}</span>
                       </div>
                       <div className="detail-row">
                         <span className="label">Days:</span>

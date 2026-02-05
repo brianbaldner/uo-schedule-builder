@@ -94,16 +94,19 @@ def read_item(classes: list[Classes]):
     for c in classes:
         filtered = df[(df['Subj'] == c.Subj) & (df['Crse'] == c.Code)]
         class_structure = []
+        
         for ind, row in filtered.iterrows():
             if '+' == row['Title'][0]:
                 continue
-            associated_classes = []
-            crn = ind
-            while crn + 1 in df.index and '+' == df.loc[crn + 1]['Title'][0]:
-                associated_classes.append(df.loc[crn + 1].to_dict())
-                crn += 1
+            
+            # Find associated sections that belong to this specific main section
+            associated_sections = filtered[
+                (filtered['Title'].str.startswith('+')) & 
+                (filtered['parent_crn'] == str(ind))
+            ].to_dict('records')
+            
             sect = row.to_dict()
-            sect['assoc_sections'] = associated_classes
+            sect['assoc_sections'] = associated_sections
             class_structure.append(sect)
         main.append(class_structure)
 
