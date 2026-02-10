@@ -374,8 +374,10 @@ function App() {
               {loading ? 'Generating...' : 'Generate Schedules'}
             </button>
           </div>
+        </div>
 
-          {error && <div className="error">{error}</div>}
+        <div className="main-content">
+            {error && <div className="error">{error}</div>}
           
           {conflicts.length > 0 && (
             <div className="conflicts-warning">
@@ -402,9 +404,8 @@ function App() {
               </ul>
             </div>
           )}
-        </div>
 
-        <div className="main-content">
+
           {schedules.length > 0 ? (
             <>
               <div className="schedule-nav">
