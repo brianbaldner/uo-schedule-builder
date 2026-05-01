@@ -299,7 +299,7 @@ function App() {
     <div className="app">
       <header>
         <h1>University of Oregon Unofficial Schedule Builder</h1>
-        <h3 style={{'color': 'grey'}}>Spring 2026</h3>
+        <h3 style={{'color': 'grey'}}>Fall 2026</h3>
       </header>
 
       <div className="container">
