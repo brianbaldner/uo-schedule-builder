@@ -39,8 +39,12 @@ interface Schedule {
 }
 
 const API_BASE = '/api'
+function timeToMinutes(time: number): number {
+  return Math.floor(time / 100) * 60 + (time % 100)
+}
+
 function min_between_time(start: number, end: number): number {
-  return Math.floor((end - start) / 100) * 60 + ((end - start) % 100)
+  return timeToMinutes(end) - timeToMinutes(start)
 }
 
 const DISTINCT_COLORS = [
@@ -77,8 +81,8 @@ function CalendarView({ schedule }: { schedule: CourseSection[] }) {
   const sects = window / 10
   const grid_style = {
     'display': 'grid',
-    'grid-template-columns': '50px repeat(5, 1fr)',
-    'grid-template-rows': `30px repeat(${sects}, 10px)`,
+    'gridTemplateColumns': '50px repeat(5, 1fr)',
+    'gridTemplateRows': `30px repeat(${sects}, 10px)`,
     'gap': '1px',
     'padding': '10px',
     'overflow': 'auto'
@@ -95,11 +99,9 @@ function CalendarView({ schedule }: { schedule: CourseSection[] }) {
   return <div style={grid_style}>
     {createNumberRange(1, sects).map((n) => {
     const minutes_from_start = (n - 1) * 10;
-    const hours = Math.floor(minutes_from_start / 60);
-    const mins = minutes_from_start % 60;
-    const time_int = earliest_time + (hours * 100) + mins;
-    const display_hour = Math.floor(time_int / 100);
-    const display_min = time_int % 100;
+    const total_minutes = timeToMinutes(earliest_time) + minutes_from_start;
+    const display_hour = Math.floor(total_minutes / 60);
+    const display_min = total_minutes % 60;
     const period = display_hour >= 12 ? 'PM' : 'AM';
     const hour_12 = display_hour > 12 ? display_hour - 12 : display_hour === 0 ? 12 : display_hour;
     
@@ -118,7 +120,7 @@ function CalendarView({ schedule }: { schedule: CourseSection[] }) {
     );
     })}
     {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map((val, index) => (
-      <p style={{
+      <p key={val} style={{
         'gridColumn': index + 2,
         'gridRow': 1,
         'color': 'black',
@@ -127,7 +129,7 @@ function CalendarView({ schedule }: { schedule: CourseSection[] }) {
     ))}
     {sync_classes.map((section, index) => (
       section.Day.split('').map((day) => (
-        <div style={{
+        <div key={`${section.CRN}-${day}`} style={{
           'gridRowStart': (min_between_time(earliest_time, parseInt(section.Time.split('-')[0])) / 10) + 2,
           'gridRowEnd': (min_between_time(earliest_time, parseInt(section.Time.split('-')[1])) / 10) + 2,
           'gridColumn': day_to_col[day],
@@ -299,7 +301,7 @@ function App() {
     <div className="app">
       <header>
         <h1>University of Oregon Unofficial Schedule Builder</h1>
-        <h3 style={{'color': 'grey'}}>Fall 2026</h3>
+        <h3 style={{'color': 'grey'}}>Winter 2027</h3>
       </header>
 
       <div className="container">
